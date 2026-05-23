@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brick City Roleplay - Serious RP</title>
+  <meta name="description" content="Brick City Roleplay - A serious FiveM roleplay community. Join us for an immersive RP experience." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      position: relative;
+      min-height: 100%;
+      isolation: isolate;
+      font-family: "Inter", sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #8b0000; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #cc0000; }
+    ::selection { background: rgba(187, 0, 0, 0.4); color: #fff; }
+
+    :root {
+      --red: #bb0000;
+      --red-dark: #8b0000;
+      --red-light: #e60000;
+      --red-glow: rgba(187, 0, 0, 0.3);
+      --panel: rgba(12, 12, 12, .72);
+      --panel-strong: rgba(15, 15, 15, .86);
+      --line: rgba(255, 255, 255, .08);
+      --line-red: rgba(187, 0, 0, .24);
+      --shadow-deep: 0 28px 80px rgba(0, 0, 0, .42);
+      --black: #0a0a0a;
+      --black-2: #111111;
+      --black-3: #1a1a1a;
+      --gray: #2a2a2a;
+      --text: #e0e0e0;
+      --text-muted: #999;
+      --text-dark: #666;
+      --font-heading: "Oswald", sans-serif;
+      --font-body: "Inter", sans-serif;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    :focus-visible {
+      outline: 2px solid rgba(230,0,0,.8);
+      outline-offset: 4px;
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(187, 0, 0, .22), transparent 34%),
+        #050505;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+    .loader.done { opacity: 0; visibility: hidden; }
+    .loader-card {
+      width: min(88vw, 420px);
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(187, 0, 0, .35);
+      border-radius: 12px;
+      background: rgba(10, 10, 10, .8);
+      box-shadow: 0 0 35px rgba(187,0,0,.2), inset 0 0 30px rgba(187,0,0,.05);
+      backdrop-filter: blur(14px);
+    }
+    .loader-mark {
+      width: 74px;
+      height: 74px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 1rem;
+      border: 1px solid rgba(187,0,0,.45);
+      border-radius: 12px;
+      color: #fff;
+      font: 700 2rem/1 var(--font-heading);
+      text-shadow: 0 0 16px rgba(230,0,0,.75);
+      box-shadow: inset 0 0 22px rgba(187,0,0,.16), 0 0 28px rgba(187,0,0,.18);
+    }
+    .loader-title {
+      color: #fff;
+      font: 700 2rem/1 var(--font-heading);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .loader-title span { color: var(--red-light); }
+    .loader-sub {
+      margin: .7rem 0 1.25rem;
+      color: var(--text-muted);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .loadbar {
+      height: 4px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+    }
+    .loadbar::after {
+      content: "";
+      display: block;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--red-light), #fff);
+      animation: loadSweep 1s ease-in-out infinite;
+      box-shadow: 0 0 16px rgba(230,0,0,.7);
+    }
+    @keyframes loadSweep { from { transform: translateX(-120%); } to { transform: translateX(230%); } }
+
+    .cursor-glow {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 560px;
+      height: 560px;
+      z-index: 3;
+      pointer-events: none;
+      transform: translate3d(calc(var(--mx, 50vw) - 50%), calc(var(--my, 50vh) - 50%), 0);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(230,0,0,.2) 0%, rgba(187,0,0,.1) 34%, transparent 68%);
+      filter: blur(10px);
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+    .page-noise {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: .05;
+      background-image:
+        radial-gradient(circle at 20% 30%, #fff 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, #fff 0 1px, transparent 1px);
+      background-size: 34px 34px, 47px 47px;
+    }
+    .site-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: auto;
+      min-height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 8%, rgba(187,0,0,.22), transparent 26rem),
+        radial-gradient(circle at 12% 36%, rgba(230,0,0,.1), transparent 18rem),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.74) 28rem, rgba(0,0,0,.9)),
+        url("assets/nooverlay.png") center top / max(100vw, 1320px) auto repeat-y;
+      filter: brightness(.52) saturate(1.08) contrast(1.06);
+    }
+    .site-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.76), transparent 28%, transparent 72%, rgba(0,0,0,.78)),
+        radial-gradient(ellipse at center, transparent 36%, rgba(0,0,0,.72) 100%);
+    }
+
+    .logo-img {
+      height: 42px;
+      width: 42px;
+      display: block;
+      object-fit: cover;
+      border-radius: 9px;
+      border: 1px solid rgba(187,0,0,.35);
+      background: rgba(10,10,10,.55);
+      filter: drop-shadow(0 0 10px rgba(187,0,0,.28));
+    }
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      display: none;
+      place-items: center;
+      border: 1px solid rgba(187,0,0,.35);
+      border-radius: 8px;
+      color: #fff;
+      background: #111;
+      font: 700 1rem var(--font-heading);
+      letter-spacing: 1px;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0 clamp(1rem, 3vw, 2.25rem);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      background: transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(8, 8, 8, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(187, 0, 0, 0.18);
+      box-shadow: 0 10px 34px rgba(0,0,0,0.42);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #fff;
+      text-transform: uppercase;
+      min-width: 0;
+    }
+    .nav-brand .brand-brick { color: var(--red); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.55rem;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: var(--transition);
+      position: relative;
+      padding: 0.25rem 0;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--red);
+      box-shadow: 0 0 10px rgba(230,0,0,.55);
+      transition: var(--transition);
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--red), #7a0000);
+      color: #fff !important;
+      padding: 0.58rem 1.35rem !important;
+      border-radius: 999px;
+      font-weight: 700 !important;
+      box-shadow: 0 8px 22px rgba(187,0,0,.2), inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--red-light) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px var(--red-glow);
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 28px;
+      height: 2px;
+      background: #fff;
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(187,0,0,.12), transparent 38%),
+        linear-gradient(90deg, rgba(5,5,5,.7), rgba(5,5,5,.18), rgba(5,5,5,.72));
+      z-index: 0;
+      transition: background-image 0.8s ease;
+    }
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.08) 40px, rgba(0,0,0,0.08) 42px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(0,0,0,0.05) 80px, rgba(0,0,0,0.05) 82px);
+      opacity: 0.4;
+    }
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.82) 100%);
+      z-index: 1;
+    }
+    .hero-glow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse at center, rgba(187,0,0,0.18) 0%, transparent 70%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      text-align: center;
+      max-width: 960px;
+      padding: 2rem clamp(1rem, 3vw, 2rem);
+    }
+    .discord-page-overlay {
+      position: fixed;
+      right: clamp(1rem, 3vw, 2.5rem);
+      bottom: clamp(1rem, 3vw, 1.7rem);
+      z-index: 900;
+      width: min(280px, 26vw);
+      pointer-events: auto;
+    }
+    .discord-overlay-link {
+      display: block;
+      line-height: 0;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,.58)) drop-shadow(0 0 14px rgba(230,0,0,.18));
+      opacity: .92;
+      transition: transform .3s ease, filter .3s ease, opacity .3s ease;
+    }
+    .discord-overlay-link img {
+      width: 100%;
+      border-radius: 0;
+    }
+    .discord-overlay-link:hover {
+      transform: translateY(-3px) scale(1.025);
+      opacity: 1;
+      filter: drop-shadow(0 14px 28px rgba(0,0,0,.68)) drop-shadow(0 0 20px rgba(230,0,0,.28));
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border: 1px solid rgba(187,0,0,0.4);
+      border-radius: 50px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--red-light);
+      margin-bottom: 1.5rem;
+      background: rgba(187,0,0,0.08);
+      backdrop-filter: blur(4px);
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+      text-shadow: 0 18px 44px rgba(0,0,0,.6);
+    }
+    .hero-title .highlight {
+      color: var(--red);
+      text-shadow: 0 0 30px rgba(187,0,0,0.35);
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: #c8c8c8;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: .85rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.88rem 1.65rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 8px;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      overflow: hidden;
+      position: relative;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,.16), transparent);
+      transform: translateX(-120%);
+      transition: transform .55s ease;
+    }
+    .btn:hover::before { transform: translateX(120%); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red), #7f0000);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--red-glow), inset 0 1px 0 rgba(255,255,255,.15);
+    }
+    .btn-primary:hover {
+      background: var(--red-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(187,0,0,0.4);
+    }
+    .btn-outline {
+      background: rgba(0,0,0,.28);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .btn-outline:hover {
+      border-color: var(--red);
+      background: rgba(187,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    .hero-stats {
+      display: flex;
+      gap: .8rem;
+      justify-content: center;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      min-width: 136px;
+      text-align: center;
+      padding: .9rem 1rem;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      background: rgba(0,0,0,.28);
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 0 22px rgba(255,255,255,.025);
+    }
+    .hero-stat-number {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .hero-stat-number .plus { color: var(--red); }
+    .hero-stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+    .server-ops {
+      position: relative;
+      z-index: 4;
+      width: min(940px, 100%);
+      margin: 1.25rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(4,4,4,.44);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 22px 70px rgba(0,0,0,.34), inset 0 0 30px rgba(255,255,255,.02);
+    }
+    .server-op {
+      display: grid;
+      gap: .28rem;
+      padding: .95rem 1rem;
+      border-right: 1px solid rgba(255,255,255,.075);
+      text-align: left;
+    }
+    .server-op:last-child { border-right: 0; }
+    .server-op span {
+      color: var(--text-dark);
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+    .server-op strong {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      color: #fff;
+      font-size: .88rem;
+      line-height: 1.3;
+    }
+    .server-op i {
+      color: var(--red-light);
+      text-shadow: 0 0 14px rgba(230,0,0,.34);
+    }
+    .server-op a {
+      color: #fff;
+      transition: var(--transition);
+    }
+    .server-op a:hover { color: var(--red-light); }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      animation: float 2s ease-in-out infinite;
+    }
+    .scroll-indicator .mouse {
+      width: 24px;
+      height: 38px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      position: relative;
+    }
+    .scroll-indicator .mouse::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 2px;
+      animation: scrollWheel 1.5s ease-in-out infinite;
+    }
+    @keyframes scrollWheel { 0%,100% { transform: translateX(-50%) translateY(0); opacity: 1; } 50% { transform: translateX(-50%) translateY(10px); opacity: 0.3; } }
+    @keyframes float { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-8px); } }
+
+    section { padding: 6rem 2rem; position: relative; z-index: 4; }
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(187,0,0,.26), transparent);
+      opacity: .75;
+      pointer-events: none;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+    .section-desc {
+      max-width: 600px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    .section-header { margin-bottom: clamp(2.4rem, 5vw, 4rem); }
+    .container { max-width: 1180px; margin: 0 auto; }
+
+    .about { background: linear-gradient(180deg, rgba(17,17,17,.5), rgba(17,17,17,.38)); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+    .about-image-frame {
+      position: relative;
+      border-radius: 14px;
+    }
+    .about-image-frame .frame-accent {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--red);
+      border-radius: 8px;
+      z-index: -1;
+      opacity: 0.3;
+    }
+    .about-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      margin-top: 2rem;
+    }
+    .about-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: .82rem .9rem;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px;
+      background: rgba(0,0,0,.22);
+    }
+    .about-feature-item i { color: var(--red); font-size: 1rem; margin-top: 3px; }
+    .about-feature-item span { font-size: 0.9rem; color: var(--text-muted); }
+
+    .features { background: linear-gradient(180deg, rgba(10,10,10,.46), rgba(10,10,10,.34)); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.08));
+    }
+    .feature-card {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: 1.45rem 1.25rem 1.45rem 0;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+      box-shadow: none;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 1rem;
+      align-items: start;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .feature-card:nth-child(odd) { padding-right: 1.5rem; }
+    .feature-card:nth-child(even) {
+      padding-left: 1.5rem;
+      padding-right: 0;
+      border-left: 1px solid rgba(255,255,255,.06);
+    }
+    .feature-card:nth-last-child(-n+2) { border-bottom: 0; }
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.35rem;
+      width: 34px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(230,0,0,.85), transparent);
+      opacity: .7;
+      transition: var(--transition);
+    }
+    .feature-card:nth-child(even)::before { left: 1.5rem; }
+    .feature-card::after {
+      content: "";
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(187,0,0,.16), transparent 70%);
+      opacity: .35;
+      transition: var(--transition);
+    }
+    .feature-card:hover {
+      transform: translateX(4px);
+      background: linear-gradient(90deg, rgba(187,0,0,.08), transparent 70%);
+      box-shadow: none;
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-card:hover::after { transform: scale(1.18); opacity: .72; }
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      background: radial-gradient(circle, rgba(187,0,0,.2), rgba(187,0,0,.04));
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.08rem;
+      color: var(--red-light);
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 0 16px rgba(230,0,0,.35);
+      border: 1px solid rgba(187,0,0,.22);
+    }
+    .feature-icon::after { display: none; }
+    .feature-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+    .city-life-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      align-items: stretch;
+    }
+    .city-life-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.09);
+      background:
+        linear-gradient(145deg, rgba(187,0,0,.09), rgba(255,255,255,.025)),
+        rgba(8,8,8,.68);
+      padding: 1.7rem;
+      box-shadow: var(--shadow-deep), inset 0 0 34px rgba(255,255,255,.025);
+      transition: var(--transition);
+    }
+    .city-life-panel:hover {
+      transform: translateY(-4px);
+      border-color: rgba(187,0,0,.26);
+      box-shadow: 0 34px 86px rgba(0,0,0,.42), 0 0 30px rgba(187,0,0,.1), inset 0 0 34px rgba(255,255,255,.03);
+    }
+    .city-life-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(230,0,0,.28), transparent 32%),
+        radial-gradient(circle at 85% 12%, rgba(187,0,0,.22), transparent 28%);
+      opacity: .45;
+      pointer-events: none;
+    }
+    .city-life-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+    .city-life-panel h3 {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 1.55rem;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      margin-bottom: .8rem;
+    }
+    .city-life-panel h3 i {
+      color: var(--red-light);
+      text-shadow: 0 0 18px rgba(230,0,0,.4);
+    }
+    .city-life-panel p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-size: .92rem;
+      margin-bottom: 1.2rem;
+    }
+    .city-life-list {
+      display: grid;
+      gap: .75rem;
+    }
+    .city-life-row {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: .75rem;
+      align-items: start;
+      padding: .75rem 0;
+      border-top: 1px solid rgba(255,255,255,.065);
+    }
+    .city-life-row i {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: var(--red-light);
+      background: rgba(187,0,0,.12);
+      border: 1px solid rgba(187,0,0,.22);
+    }
+    .city-life-row strong {
+      display: block;
+      color: #fff;
+      font-size: .92rem;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: .12rem;
+    }
+    .city-life-row span {
+      display: block;
+      color: var(--text-muted);
+      font-size: .84rem;
+      line-height: 1.55;
+    }
+
+    .discord { background: linear-gradient(180deg, rgba(10,10,10,.46), rgba(10,10,10,.34)); }
+    .discord-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+    .discord-preview {
+      background: var(--panel-strong);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-deep);
+    }
+    .discord-preview-header {
+      padding: 1rem 1.2rem;
+      background: var(--black-3);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .dc-dots { display: flex; gap: 6px; }
+    .dc-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .dc-dots span:nth-child(1) { background: #ff5f56; }
+    .dc-dots span:nth-child(2) { background: #ffbd2e; }
+    .dc-dots span:nth-child(3) { background: #27c93f; }
+    .dc-title { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+    .discord-messages {
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .dc-msg { display: flex; gap: 0.8rem; align-items: flex-start; }
+    .dc-msg-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #fff;
+      font-weight: 600;
+    }
+    .dc-msg-content { flex: 1; }
+    .dc-msg-user {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+    .role-badge {
+      font-size: 0.6rem;
+      background: var(--red);
+      color: #fff;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      margin-left: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .dc-msg-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .dc-msg-text .highlight { color: var(--red-light); }
+
+    .connect {
+      background: linear-gradient(180deg, rgba(17,17,17,.5), rgba(17,17,17,.38));
+      text-align: center;
+    }
+    .connect-box {
+      max-width: 600px;
+      margin: 0 auto;
+      background:
+        linear-gradient(145deg, rgba(187,0,0,.08), transparent 46%),
+        rgba(15,15,15,.84);
+      border: 1px solid rgba(187,0,0,0.22);
+      border-radius: 14px;
+      padding: 3rem 2rem;
+      box-shadow: 0 24px 70px rgba(0,0,0,.35), inset 0 0 34px rgba(255,255,255,.025);
+    }
+    .connect-ip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      background: rgba(0,0,0,0.4);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .connect-ip code {
+      font-family: "Inter", monospace;
+      font-size: 1rem;
+      color: #fff;
+      letter-spacing: 0.5px;
+      overflow-wrap: anywhere;
+    }
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 0.3rem;
+    }
+    .copy-btn:hover { color: var(--red); }
+    .connect-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .connect-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.68rem 1.15rem;
+      background: rgba(255,255,255,0.04);
+      border-radius: 9px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: var(--transition);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .connect-link:hover {
+      border-color: rgba(187,0,0,0.3);
+      color: #fff;
+      background: rgba(187,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .connect-link i { color: var(--red); }
+
+    .footer {
+      position: relative;
+      z-index: 4;
+      background:
+        linear-gradient(180deg, rgba(10,10,10,.7), rgba(10,10,10,.9)),
+        rgba(10,10,10,.88);
+      padding: 4.5rem 2rem 2rem;
+      border-top: 1px solid rgba(187,0,0,.16);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(240px, 1.6fr) repeat(3, minmax(150px, .8fr));
+      gap: 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-brand {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      letter-spacing: 1px;
+    }
+    .footer-brand span { color: var(--red); }
+    .footer-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 300px;
+    }
+    .footer h4 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .footer h4::after {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 1px;
+      margin-top: .55rem;
+      background: linear-gradient(90deg, var(--red), transparent);
+    }
+    .footer li { margin-bottom: 0.6rem; }
+    .footer a {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .footer a:hover { color: #fff; text-shadow: 0 0 14px rgba(230,0,0,.35); }
+    .footer-social {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .footer-social a {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .footer-social a:hover {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      font-size: 0.8rem;
+      color: var(--text-dark);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--black-3);
+      border: 1px solid rgba(187,0,0,0.3);
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: var(--transition);
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .join-panel {
+      width: 100%;
+      min-height: 360px;
+      background:
+        linear-gradient(135deg, rgba(187,0,0,.16), transparent 42%),
+        rgba(10,10,10,.78);
+      border-radius: 14px;
+      border: 1px solid rgba(187,0,0,.2);
+      box-shadow: inset 0 0 40px rgba(187,0,0,.06), 0 22px 60px rgba(0,0,0,.42);
+      padding: 1.55rem;
+      overflow: hidden;
+      position: relative;
+      transition: var(--transition);
+    }
+    .join-panel::after {
+      content: "BC-RP";
+      position: absolute;
+      right: 1rem;
+      bottom: .65rem;
+      color: rgba(255,255,255,.04);
+      font: 800 3.5rem/1 var(--font-heading);
+      letter-spacing: 2px;
+      pointer-events: none;
+    }
+    .join-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0 49%, rgba(255,255,255,.04) 49% 50%, transparent 50%),
+        linear-gradient(0deg, transparent 0 49%, rgba(255,255,255,.03) 49% 50%, transparent 50%);
+      background-size: 64px 64px;
+      opacity: .22;
+      pointer-events: none;
+    }
+    .join-panel:hover {
+      border-color: rgba(230,0,0,.36);
+      transform: translateY(-3px);
+      box-shadow: inset 0 0 40px rgba(187,0,0,.08), 0 28px 70px rgba(0,0,0,.48), 0 0 26px rgba(187,0,0,.12);
+    }
+    .join-panel-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      height: 100%;
+    }
+    .join-panel-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      width: fit-content;
+      padding: .35rem .7rem;
+      border: 1px solid rgba(187,0,0,.35);
+      border-radius: 999px;
+      color: var(--red-light);
+      background: rgba(187,0,0,.08);
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+    .join-panel h3 {
+      font-family: var(--font-heading);
+      color: #fff;
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      line-height: 1;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .join-panel h3 span { color: var(--red); }
+    .join-panel p {
+      color: var(--text-muted);
+      font-size: .92rem;
+      line-height: 1.7;
+      max-width: 500px;
+    }
+    .join-steps {
+      display: grid;
+      gap: .65rem;
+      margin-top: .2rem;
+    }
+    .join-step {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .72rem .8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(0,0,0,.34);
+      color: #fff;
+      font-size: .86rem;
+      font-weight: 700;
+    }
+    .join-step i {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 10px;
+      color: var(--red-light);
+      background: rgba(187,0,0,.12);
+      box-shadow: inset 0 0 18px rgba(187,0,0,.08);
+    }
+    .join-actions {
+      display: flex;
+      gap: .7rem;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+    .join-actions .connect-link {
+      background: rgba(255,255,255,.045);
+      flex: 1 1 120px;
+      justify-content: center;
+      min-height: 42px;
+    }
+
+    @media (max-width: 968px) {
+      .about-grid, .discord-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .city-life-layout { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .about-features { grid-template-columns: 1fr 1fr; }
+      .discord-page-overlay { width: min(250px, 34vw); }
+      .server-ops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .server-op:nth-child(2) { border-right: 0; }
+      .server-op:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.075); }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 1rem; }
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(10,10,10,0.98);
+        backdrop-filter: blur(20px);
+        transform: translateY(-120%);
+        transition: var(--transition);
+        border-bottom: 1px solid rgba(187,0,0,0.1);
+        padding: 0;
+      }
+      .nav-links.open { transform: translateY(0); }
+      .nav-links a {
+        padding: 1rem 2rem !important;
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+      }
+      .nav-links a::after { display: none; }
+      .hamburger { display: flex; }
+      .nav-brand > span:last-child { display: none; }
+      .hero-title { font-size: clamp(2.8rem, 12vw, 4rem); }
+      .hero-stats { gap: 1.5rem; }
+      .hero-stat-number { font-size: 1.5rem; }
+      .hero-stat { min-width: 118px; padding: .75rem .85rem; }
+      .server-ops { width: min(100%, 560px); }
+      section { padding: 4.5rem 1rem; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-features { grid-template-columns: 1fr; }
+      .discord-page-overlay {
+        right: 1rem;
+        bottom: 1rem;
+        width: min(225px, 42vw);
+      }
+      .btn { width: min(100%, 320px); }
+      .hero-actions { align-items: center; }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .city-life-panel { padding: 1.25rem; }
+      .city-life-panel h3 { font-size: 1.3rem; }
+      .feature-card,
+      .feature-card:nth-child(even),
+      .feature-card:nth-child(odd) {
+        padding: 1.25rem 0;
+        border-left: 0;
+      }
+      .feature-card:nth-last-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.06); }
+      .feature-card:last-child { border-bottom: 0; }
+      .feature-card:nth-child(even)::before { left: 0; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .connect-ip { flex-direction: column; }
+      .discord-page-overlay {
+        right: 50%;
+        bottom: .85rem;
+        transform: translateX(50%);
+        width: min(220px, 70vw);
+      }
+      .discord-overlay-link { transform-origin: center bottom; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+      .hero-stat { min-width: 0; }
+      .server-ops { grid-template-columns: 1fr; }
+      .server-op,
+      .server-op:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255,255,255,.075);
+      }
+      .server-op:last-child { border-bottom: 0; }
+      .section-title { font-size: clamp(2rem, 11vw, 2.8rem); }
+      .footer { padding-inline: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-mark">BC</div>
+      <div class="loader-title">Brick <span>City</span></div>
+      <div class="loader-sub" id="loaderSub">Connecting to Brick City...</div>
+      <div class="loadbar"></div>
+    </div>
+  </div>
+
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="page-noise"></div>
+  <div class="toast" id="toast"></div>
+
+  <div class="discord-page-overlay" aria-label="Brick City Discord">
+    <a class="discord-overlay-link" href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer" aria-label="Join Brick City RP Discord">
+      <img src="assets/serveroverlay.png" alt="discord.gg/brickcityrp" />
+    </a>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <a href="#hero" class="nav-brand">
+      <img class="logo-img" src="assets/logo2.png" alt="Brick City Roleplay" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+      <span class="logo-mark">BC</span>
+      <span><span class="brand-brick">BRICK</span> CITY</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="https://rules.brickcityrp.store" target="_blank" rel="noopener noreferrer">Rules</a>
+      <a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer">Discord</a>
+      <a href="#connect" class="nav-cta"><i class="fa-solid fa-play"></i> Connect</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge">FiveM Serious RP</div>
+      <div class="hero-title">BRICK <span class="highlight">CITY</span></div>
+      <div class="hero-sub">Discord-required access, serious scenes, and a city built for clean roleplay.</div>
+      <div class="hero-actions">
+        <a href="#connect" class="btn btn-primary"><i class="fa-solid fa-link"></i> Connect Now</a>
+        <a href="fivem://connect/66.206.13.138:50243" class="btn btn-outline"><i class="fa-solid fa-play"></i> FiveM Connect</a>
+        <a href="https://rules.brickcityrp.store" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fa-solid fa-book-open"></i> Server Rules</a>
+        <a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fa-brands fa-discord"></i> Join Discord</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-number"><i class="fa-brands fa-discord"></i></div>
+          <div class="hero-stat-label">Discord Required</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number"><i class="fa-solid fa-id-card"></i></div>
+          <div class="hero-stat-label">Open Access</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number"><i class="fa-solid fa-masks-theater"></i></div>
+          <div class="hero-stat-label">Serious RP</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number"><i class="fa-solid fa-city"></i></div>
+          <div class="hero-stat-label">City Stories</div>
+        </div>
+      </div>
+      <div class="server-ops" aria-label="Server information">
+        <div class="server-op">
+          <span>Access</span>
+          <strong><i class="fa-brands fa-discord"></i> Discord Required</strong>
+        </div>
+        <div class="server-op">
+          <span>Direct Connect</span>
+          <strong><i class="fa-solid fa-terminal"></i> 66.206.13.138:50243</strong>
+        </div>
+        <div class="server-op">
+          <span>Rules</span>
+          <strong><i class="fa-solid fa-book-open"></i><a href="https://rules.brickcityrp.store" target="_blank" rel="noopener noreferrer">Read Before RP</a></strong>
+        </div>
+        <div class="server-op">
+          <span>Support</span>
+          <strong><i class="fa-brands fa-discord"></i><a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer">Discord Support</a></strong>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="mouse"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image-frame reveal">
+          <div class="join-panel">
+            <div class="join-panel-inner">
+              <div class="join-panel-kicker"><i class="fa-solid fa-route"></i> How To Join</div>
+              <h3>Fly Into <span>Brick City</span></h3>
+              <p>Start here: join the Discord, read the rules, and fly in when you are ready to roleplay.</p>
+              <div class="join-steps">
+                <div class="join-step"><i class="fa-brands fa-discord"></i><span>1. Join the Discord</span></div>
+                <div class="join-step"><i class="fa-solid fa-book-open"></i><span>2. Read the city rules</span></div>
+                <div class="join-step"><i class="fa-solid fa-user-check"></i><span>3. Keep Discord open for updates</span></div>
+                <div class="join-step"><i class="fa-solid fa-plane-arrival"></i><span>4. Connect and start your story</span></div>
+              </div>
+              <div class="join-actions">
+                <a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer" class="connect-link"><i class="fa-brands fa-discord"></i> Discord</a>
+                <a href="https://rules.brickcityrp.store" target="_blank" rel="noopener noreferrer" class="connect-link"><i class="fa-solid fa-book-open"></i> Server Rules</a>
+                <a href="#connect" class="connect-link"><i class="fa-solid fa-play"></i> Connect</a>
+              </div>
+            </div>
+          </div>
+          <div class="frame-accent"></div>
+        </div>
+        <div class="reveal">
+          <span class="section-tag">About</span>
+          <h2 class="section-title">Built on <span style="color:var(--red);">Community</span></h2>
+          <p style="color:var(--text-muted); line-height:1.8; margin-bottom:1.5rem;">
+            Brick City Roleplay is a serious roleplay community built by players, for players.
+            Join through Discord, read the city rules, and bring a character that can grow through
+            believable scenes, consequences, and long-term stories.
+          </p>
+          <div class="about-features">
+            <div class="about-feature-item"><i class="fa-solid fa-shield-check"></i><span>Discord required to join</span></div>
+            <div class="about-feature-item"><i class="fa-solid fa-book"></i><span>Rules-first serious RP</span></div>
+            <div class="about-feature-item"><i class="fa-solid fa-headset"></i><span>Support through Discord</span></div>
+            <div class="about-feature-item"><i class="fa-solid fa-road"></i><span>Stories built in city</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">City Life</span>
+        <h2 class="section-title">Roleplay <span style="color:var(--red);">Opportunities</span></h2>
+        <p class="section-desc">Clear paths for players who want serious RP, useful city roles, and scenes that feel grounded.</p>
+      </div>
+      <div class="city-life-layout">
+        <div class="city-life-panel reveal">
+          <h3><i class="fa-solid fa-building-shield"></i> Public Services</h3>
+          <p>Structured city roles for players who want clean scenes, believable consequences, and steady community interaction.</p>
+          <div class="city-life-list">
+            <div class="city-life-row"><i class="fa-solid fa-handcuffs"></i><div><strong>Law Enforcement</strong><span>Traffic stops, investigations, pursuits, and scene control.</span></div></div>
+            <div class="city-life-row"><i class="fa-solid fa-truck-medical"></i><div><strong>EMS</strong><span>Medical response, hospital scenes, recovery RP, and emergency calls.</span></div></div>
+            <div class="city-life-row"><i class="fa-solid fa-scale-balanced"></i><div><strong>DOJ</strong><span>Court cases, charges, evidence, negotiations, and legal consequences.</span></div></div>
+          </div>
+        </div>
+        <div class="city-life-panel reveal">
+          <h3><i class="fa-solid fa-city"></i> Street & Civilian RP</h3>
+          <p>Everyday city life with room for businesses, crews, cars, conflict, reputation, and long-term character stories.</p>
+          <div class="city-life-list">
+            <div class="city-life-row"><i class="fa-solid fa-store"></i><div><strong>Businesses</strong><span>Shops, dealerships, clubs, restaurants, and service-based scenes.</span></div></div>
+            <div class="city-life-row"><i class="fa-solid fa-mask"></i><div><strong>Street RP</strong><span>Crews, rivalries, deals, conflict, and serious RP standards.</span></div></div>
+            <div class="city-life-row"><i class="fa-solid fa-car-side"></i><div><strong>Cars & Scenes</strong><span>Meetups, patrols, street moments, and cinematic city interactions.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="discord" id="discord">
+    <div class="container">
+      <div class="discord-grid">
+        <div class="reveal">
+          <span class="section-tag">Community</span>
+          <h2 class="section-title">Join our <span style="color:var(--red);">Discord</span></h2>
+          <p style="color:var(--text-muted); line-height:1.8; margin-bottom:1.5rem;">
+            Discord is required before joining the city. Use it for rules, announcements, support, and updates.
+          </p>
+          <a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <i class="fa-brands fa-discord"></i> Join Discord
+          </a>
+        </div>
+        <div class="discord-preview reveal">
+          <div class="discord-preview-header">
+            <div class="dc-dots"><span></span><span></span><span></span></div>
+            <span class="dc-title"># welcome</span>
+          </div>
+          <div class="discord-messages">
+            <div class="dc-msg">
+              <div class="dc-msg-avatar" style="background:#5865F2;">BC</div>
+              <div class="dc-msg-content">
+                <div class="dc-msg-user">Start Here <span class="role-badge">Info</span></div>
+                <div class="dc-msg-text">Join Discord first, read the rules, then use the direct connect button to fly into <span class="highlight">Brick City RP</span>.</div>
+              </div>
+            </div>
+            <div class="dc-msg">
+              <div class="dc-msg-avatar" style="background:#ed4245;"><i class="fa-solid fa-book"></i></div>
+              <div class="dc-msg-content">
+                <div class="dc-msg-user">Rules <span class="role-badge" style="background:#bb0000;">Read</span></div>
+                <div class="dc-msg-text">Stay in character, value your life, respect scenes, and keep RP serious.</div>
+              </div>
+            </div>
+            <div class="dc-msg">
+              <div class="dc-msg-avatar" style="background:#57f287;"><i class="fa-solid fa-circle-info"></i></div>
+              <div class="dc-msg-content">
+                <div class="dc-msg-user">Support <span class="role-badge" style="background:#5865F2;">Discord</span></div>
+                <div class="dc-msg-text">Need help connecting or finding rules? Use the Discord channels for current information.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="connect" id="connect">
+    <div class="container">
+      <div class="section-header reveal" style="text-align:center; margin-bottom:2rem;">
+        <span class="section-tag">Play Now</span>
+        <h2 class="section-title">Connect to <span style="color:var(--red);">Brick City</span></h2>
+      </div>
+      <div class="connect-box reveal">
+        <i class="fa-solid fa-server" style="font-size:2.5rem; color:var(--red); margin-bottom:1rem;"></i>
+        <h3 style="font-family:var(--font-heading); font-size:1.5rem; color:#fff; text-transform:uppercase; margin-bottom:0.5rem;">Direct Connect</h3>
+        <div class="connect-ip">
+          <i class="fa-solid fa-network-wired" style="color:var(--red);"></i>
+          <code id="serverIp">connect 66.206.13.138:50243</code>
+          <button class="copy-btn" onclick="copyIP()" title="Copy IP"><i class="fa-regular fa-copy"></i></button>
+        </div>
+        <a href="fivem://connect/66.206.13.138:50243" class="btn btn-primary" style="margin-bottom:0.5rem;">
+          <i class="fa-solid fa-play"></i> Connect via FiveM
+        </a>
+        <div class="connect-links">
+          <a href="https://brickcityrp.tebex.io" target="_blank" rel="noopener noreferrer" class="connect-link"><i class="fa-solid fa-cart-shopping"></i> Store</a>
+          <a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer" class="connect-link"><i class="fa-brands fa-discord"></i> Discord</a>
+          <a href="https://rules.brickcityrp.store" target="_blank" rel="noopener noreferrer" class="connect-link"><i class="fa-solid fa-book"></i> Rules</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">BRICK <span>CITY</span></div>
+        <p class="footer-desc">
+          Serious roleplay on FiveM. Built by players, for players.
+          Join through Discord, read the city rules, and fly in with serious RP standards.
+        </p>
+        <div class="footer-social">
+          <a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="https://rules.brickcityrp.store" target="_blank" rel="noopener noreferrer">Rules</a></li>
+          <li><a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer">Discord</a></li>
+          <li><a href="#connect">Connect</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer">Join Discord</a></li>
+          <li><a href="https://rules.brickcityrp.store" target="_blank" rel="noopener noreferrer">Server Rules</a></li>
+          <li><a href="https://staff.brickcityrp.store" target="_blank" rel="noopener noreferrer">Staff Application</a></li>
+          <li><a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer">Announcements</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="https://discord.gg/brickcityrp" target="_blank" rel="noopener noreferrer">Discord Support</a></li>
+          <li><a href="#features">City Life</a></li>
+          <li><a href="#about">How To Join</a></li>
+          <li><a href="https://brickcityrp.tebex.io" target="_blank" rel="noopener noreferrer">Store</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Brick City Roleplay. All rights reserved. Not affiliated with Rockstar Games or FiveM.
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById("navbar");
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+    const loaderSteps = [
+      "Connecting to Brick City...",
+      "Checking Discord access...",
+      "Loading dispatch...",
+      "Preparing city systems...",
+      "Entering the city..."
+    ];
+    let loaderIndex = 0;
+
+    const loaderInterval = setInterval(() => {
+      loaderIndex = Math.min(loaderIndex + 1, loaderSteps.length - 1);
+      document.getElementById("loaderSub").textContent = loaderSteps[loaderIndex];
+    }, 260);
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        clearInterval(loaderInterval);
+        document.getElementById("loader").classList.add("done");
+      }, 1300);
+    });
+
+    const cursor = {
+      targetX: window.innerWidth / 2,
+      targetY: window.scrollY + Math.min(window.innerHeight * .45, 420),
+      currentX: window.innerWidth / 2,
+      currentY: window.scrollY + Math.min(window.innerHeight * .45, 420),
+      clientX: window.innerWidth / 2,
+      clientY: Math.min(window.innerHeight * .45, 420)
+    };
+
+    function moveCursorGlow(event) {
+      cursor.clientX = event.clientX;
+      cursor.clientY = event.clientY;
+      cursor.targetX = event.clientX;
+      cursor.targetY = event.clientY;
+    }
+
+    function renderCursorGlow() {
+      cursor.targetY = cursor.clientY;
+      cursor.currentX += (cursor.targetX - cursor.currentX) * 0.16;
+      cursor.currentY += (cursor.targetY - cursor.currentY) * 0.16;
+      document.documentElement.style.setProperty("--mx", cursor.currentX.toFixed(2) + "px");
+      document.documentElement.style.setProperty("--my", cursor.currentY.toFixed(2) + "px");
+      requestAnimationFrame(renderCursorGlow);
+    }
+
+    document.addEventListener("pointermove", moveCursorGlow, { passive: true });
+    document.addEventListener("mousemove", moveCursorGlow, { passive: true });
+    renderCursorGlow();
+
+    window.addEventListener("scroll", () => {
+      navbar.classList.toggle("scrolled", window.scrollY > 80);
+    });
+
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      navLinks.classList.toggle("open");
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navLinks.classList.remove("open");
+      });
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    function animateCounters() {
+      const counters = document.querySelectorAll(".hero-stat-number[data-count]");
+      counters.forEach(counter => {
+        const target = parseFloat(counter.dataset.count);
+        const hasPlus = counter.innerHTML.includes("plus");
+        const isDecimal = target % 1 !== 0;
+        const duration = 2000;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+          const num = isDecimal ? current.toFixed(1) : Math.floor(current);
+          counter.innerHTML = num + (hasPlus ? '<span class="plus">+</span>' : "");
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            const finalNum = isDecimal ? target.toFixed(1) : target;
+            counter.innerHTML = finalNum + (hasPlus ? '<span class="plus">+</span>' : "");
+          }
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          heroObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    heroObserver.observe(document.querySelector(".hero"));
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+
+    function copyIP() {
+      const ip = document.getElementById("serverIp").textContent;
+      navigator.clipboard.writeText(ip).then(() => {
+        showToast("Server connect copied to clipboard!");
+      }).catch(() => {
+        const textarea = document.createElement("textarea");
+        textarea.value = ip;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        showToast("Server connect copied to clipboard!");
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function(e) {
+        const target = document.querySelector(this.getAttribute("href"));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+
+    console.log("%c BRICK CITY ROLEPLAY ", "background: #bb0000; color: white; font-size: 2rem; font-weight: bold; padding: 10px 20px; border-radius: 4px; font-family: Oswald, sans-serif;");
+    console.log("%c Serious RP | FiveM | Discord Required ", "color: #999; font-size: 0.9rem; font-family: Inter, sans-serif;");
+  </script>
+</body>
+</html>
